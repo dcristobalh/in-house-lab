@@ -1,3 +1,5 @@
+all: init elastic
+
 init:
 	@echo "Installing dependencies..."
 	@bash -c "scripts/dependencies.sh"
@@ -8,6 +10,9 @@ stop:
 	@echo "Stopping cluster k3d..."
 	@k3d cluster stop in-house-lab
 
-delete:
+destroy:
 	@echo "Deleting cluster k3d..."
 	@k3d cluster delete in-house-lab
+
+elastic:
+	@bash -c "scripts/elastic.sh"

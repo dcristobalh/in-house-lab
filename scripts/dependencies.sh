@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 VERSION_K3D=v5.0.0
 VERSION_KUBECTL=1.22.0
 VERSION_HELM=v3.5.3
