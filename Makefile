@@ -1,4 +1,7 @@
-all: init elastic
+all: init
+	@bash -c "scripts/elastic/elastic.sh"
+	@bash -c "scripts/tekton/tekton.sh"
+	@bash -c "scripts/everything.sh"
 
 init:
 	@echo "Installing dependencies..."
@@ -15,4 +18,9 @@ destroy:
 	@k3d cluster delete in-house-lab
 
 elastic:
-	@bash -c "scripts/elastic.sh"
+	@bash -c "scripts/elastic/elastic.sh"
+	@bash -c "scripts/elastic/info.sh"
+
+tekton:
+	@bash -c "scripts/tekton/tekton.sh"
+	@bash -c "scripts/tekton/info.sh"

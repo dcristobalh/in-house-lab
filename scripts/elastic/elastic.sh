@@ -19,11 +19,11 @@ echo -e "${On_IBlu}INSTALL ELASTICSEARCH AND KIBANA${RCol}"
 kubectl create -f https://download.elastic.co/downloads/eck/$ELASTIC_VERSION/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/$ELASTIC_VERSION/operator.yaml
 
-echo -e "${Yel}Waiting for Elastic k8s operator to be ready${RCol}"
+echo -e "${Yel}Waiting for Elasticsearch k8s operator to be ready${RCol}"
 while [[ $(kubectl get pods -l statefulset.kubernetes.io/pod-name=elastic-operator-0 -n elastic-system -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] 
 do echo -n "." && sleep 1
 done
-echo -e "\n${Gre}Elastics k8s operator is ready${RCol}"
+echo -e "\n${Gre}Elasticsearch k8s operator is ready${RCol}"
 # Waiting for the operator to be ready
 sleep 30
 
@@ -67,10 +67,3 @@ while [[ $(kubectl get pods -l kibana.k8s.elastic.co/name=quickstart -o 'jsonpat
 do echo -n "." && sleep 1
 done
 echo -e "\n${Gre}Kibana is ready${RCol}"
-
-echo -e "${BIRed}You can access kibana using port forwarding${RCol}"
-echo -e "${IWhi}kubectl port-forward service/quickstart-kb-http 5601${RCol}"
-echo -e "${BIRed}And you can login to kibana using the following URL${RCol}"
-echo -e "${IWhi}https://localhost:5601${RCol}"
-echo -e "${BIRed}You can access with elastic user and password with this command${RCol}"
-echo -e "${IWhi}kubectl get secret quickstart-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo${RCol}"
