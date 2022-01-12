@@ -1,8 +1,12 @@
 all: init
 	@bash -c "scripts/elastic/elastic.sh"
 	@bash -c "scripts/tekton/tekton.sh"
+	@bash -c "scripts/cert-manager/cert-manager.sh"
 	@bash -c "scripts/everything.sh"
 
+init-cert: init
+	@bash -c "scripts/cert-manager/cert-manager.sh"
+	
 init:
 	@echo "Installing dependencies..."
 	@bash -c "scripts/dependencies.sh"
@@ -24,3 +28,6 @@ elastic:
 tekton:
 	@bash -c "scripts/tekton/tekton.sh"
 	@bash -c "scripts/tekton/info.sh"
+
+cert-manager:
+	@bash -c "scripts/cert-manager/cert-manager.sh"
