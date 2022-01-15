@@ -12,12 +12,20 @@ Pur='\e[0;35m';     BPur='\e[1;35m';    UPur='\e[4;35m';    IPur='\e[0;95m';    
 Cya='\e[0;36m';     BCya='\e[1;36m';    UCya='\e[4;36m';    ICya='\e[0;96m';    BICya='\e[1;96m';   On_Cya='\e[46m';    On_ICya='\e[0;106m';
 Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    BIWhi='\e[1;97m';   On_Whi='\e[47m';    On_IWhi='\e[0;107m';
 
-# CERT-MANAGER K8S OPERATOR
-echo -e "${On_IBlu}INSTALL CERT-MANAGER${RCol}"
+# TEKTON K8S OPERATOR
+echo -e "${On_IBlu}INSTALL KUBERNETES DASHBOARD${RCol}"
 
-echo -e "${Yel}Waiting for Cert-manager k8s operator to be ready${RCol}"
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml > /dev/null 2>&1
-while [[ $(kubectl get pods -l app.kubernetes.io/name=webhook,app.kubernetes.io/version=v1.6.1 -n cert-manager -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] 
+echo -e "${Yel}Waiting for kuberntes dashboard to be ready${RCol}"
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml > /dev/null 2>&1
+while [[ $(kubectl get pods -l k8s-app=kubernetes-dashboard -n kubernetes-dashboard -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] 
 do echo -n "." && sleep 1
 done
-echo -e "\n${Gre}Cert-manager operator is ready${RCol}"
+echo -e "\n${Gre}Kubernetes dashboard is ready${RCol}"
+
+# Create Tekton Dashboard
+echo -e "${Yel}Creating service account to access dashboard...${RCol}"
+kubectl create serviceaccount cluster-admin-dashboard-sa > /dev/null 2>&1
+kubectl create clusterrolebinding cluster-admin-dashboard-sa \
+  --clusterrole=cluster-admin \
+  --serviceaccount=default:cluster-admin-dashboard-sa > /dev/null 2>&1
+echo -e "\n${Gre}Serviceaccount and clusterrolebinding created${RCol}"

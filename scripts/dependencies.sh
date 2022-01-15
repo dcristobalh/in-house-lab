@@ -15,6 +15,17 @@ function checkclusterexists() {
 }
 
 function dependencies() {
+    if ! type docker > /dev/null; then
+        echo "Docker could not be found. Installing it ..."
+        curl -L -o ./install-docker.sh "https://get.docker.com"
+        chmod +x ./install-docker.sh
+        ./install-docker.sh
+        sudo usermod -aG docker $USER
+        #exit
+    else
+        echo "Docker already installed. No installation required"
+    fi
+
     if [ ! -x "$(command -v "kubectl")" ]; then
         wget https://dl.k8s.io/release/v${VERSION_KUBECTL}/bin/linux/amd64/kubectl -O /tmp/kubectl
         sudo chmod +x /tmp/kubectl
