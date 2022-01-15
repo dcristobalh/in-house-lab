@@ -22,8 +22,10 @@ function dependencies() {
         ./install-docker.sh
         sudo usermod -aG docker $USER
         #exit
+    else
+        echo "Docker already installed. No installation required"
     fi
-    
+
     if [ ! -x "$(command -v "kubectl")" ]; then
         wget https://dl.k8s.io/release/v${VERSION_KUBECTL}/bin/linux/amd64/kubectl -O /tmp/kubectl
         sudo chmod +x /tmp/kubectl
