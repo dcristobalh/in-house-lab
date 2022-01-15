@@ -1,2 +1,2 @@
-# in-house-lab
+# IN HOUSE LAB
 Laboratory to test different features

@@ -10,7 +10,7 @@ init-cert: init
 init:
 	@echo "Installing dependencies..."
 	@bash -c "scripts/dependencies.sh"
-	@echo "Building cluster k3d..."
+	@echo "Building cluster..."
 	@k3d cluster create in-house-lab --config clusters/3m-5w.yaml
 
 stop:
