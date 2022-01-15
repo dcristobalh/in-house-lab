@@ -16,8 +16,8 @@ Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    
 
 # ELASTIC K8S OPERATOR
 echo -e "${On_IBlu}INSTALL ELASTICSEARCH AND KIBANA${RCol}"
-kubectl create -f https://download.elastic.co/downloads/eck/$ELASTIC_VERSION/crds.yaml
-kubectl apply -f https://download.elastic.co/downloads/eck/$ELASTIC_VERSION/operator.yaml
+kubectl create -f https://download.elastic.co/downloads/eck/$ELASTIC_VERSION/crds.yaml > /dev/null 2>&1
+kubectl apply -f https://download.elastic.co/downloads/eck/$ELASTIC_VERSION/operator.yaml > /dev/null 2>&1
 
 echo -e "${Yel}Waiting for Elasticsearch k8s operator to be ready${RCol}"
 while [[ $(kubectl get pods -l statefulset.kubernetes.io/pod-name=elastic-operator-0 -n elastic-system -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] 
@@ -28,7 +28,7 @@ echo -e "\n${Gre}Elasticsearch k8s operator is ready${RCol}"
 sleep 30
 
 # Deploying Elasticsearch cluster
-cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f > /dev/null 2>&1 -
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -50,7 +50,7 @@ echo -e "\n${Gre}Elasticsearch cluster is ready${RCol}"
 
 # Deploying kibana
 
-cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f > /dev/null 2>&1 -
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:

@@ -16,7 +16,7 @@ Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    
 echo -e "${On_IBlu}INSTALL TEKTON PIPELINES AND DASHBOARD${RCol}"
 
 echo -e "${Yel}Waiting for Tekton pipelines k8s operator to be ready${RCol}"
-kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml > /dev/null 2>&1
 while [[ $(kubectl get pods -l app.kubernetes.io/part-of=tekton-pipelines -n tekton-pipelines -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True True" ]] 
 do echo -n "." && sleep 1
 done
@@ -26,7 +26,7 @@ sleep 5
 
 # Create Tekton Dashboard
 echo -e "${Yel}Waiting for Tekton dashboard to be ready${RCol}"
-kubectl apply --filename https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
+kubectl apply --filename https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml > /dev/null 2>&1
 while [[ $(kubectl get pods -l app.kubernetes.io/part-of=tekton-dashboard -n tekton-pipelines -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] 
 do echo -n "." && sleep 1
 done

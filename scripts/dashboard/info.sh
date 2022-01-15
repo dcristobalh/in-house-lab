@@ -12,12 +12,11 @@ Pur='\e[0;35m';     BPur='\e[1;35m';    UPur='\e[4;35m';    IPur='\e[0;95m';    
 Cya='\e[0;36m';     BCya='\e[1;36m';    UCya='\e[4;36m';    ICya='\e[0;96m';    BICya='\e[1;96m';   On_Cya='\e[46m';    On_ICya='\e[0;106m';
 Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    BIWhi='\e[1;97m';   On_Whi='\e[47m';    On_IWhi='\e[0;107m';
 
-# CERT-MANAGER K8S OPERATOR
-echo -e "${On_IBlu}INSTALL CERT-MANAGER${RCol}"
 
-echo -e "${Yel}Waiting for Cert-manager k8s operator to be ready${RCol}"
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml > /dev/null 2>&1
-while [[ $(kubectl get pods -l app.kubernetes.io/name=webhook,app.kubernetes.io/version=v1.6.1 -n cert-manager -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] 
-do echo -n "." && sleep 1
-done
-echo -e "\n${Gre}Cert-manager operator is ready${RCol}"
+echo -e "${BIRed}You can access dashboard using port forwarding${RCol}"
+echo -e "${IWhi}kubectl proxy${RCol}"
+echo -e "${BIRed}And you can login to kubernetes dashboard using the following URL${RCol}"
+echo -e "${IWhi}http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/${RCol}"
+echo -e "${BIRed}You need a token or a kubeconfig file, here is the token...${RCol}"
+export token=$(kubectl get secret | grep cluster-admin-dashboard-sa | awk '{print $1}') > /dev/null 2>&1
+kubectl get secret $token -o=jsonpath='{.data.token}' | base64 --decode; echo

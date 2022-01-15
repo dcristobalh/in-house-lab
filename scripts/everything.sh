@@ -33,3 +33,12 @@ echo -e "${IWhi}https://localhost:9097${RCol}"
 echo -e ""
 echo -e "${On_Pur}------------------------CERT-MANAGER------------------------${RCol}"
 echo -e "${BIRed}Cert-manager operator is installed, now you can apply issuers ;)${RCol}"
+echo -e ""
+echo -e "${On_Pur}--------------------KUBERNETES-DASHBOARD---------------------${RCol}"
+echo -e "${BIRed}You can access kubernetes dashboard using port forwarding${RCol}"
+echo -e "${IWhi}kubectl proxy${RCol}"
+echo -e "${BIRed}And you can see url in...${RCol}"
+echo -e "${IWhi}http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/${RCol}"
+echo -e "${BIRed}You can access with this token...${RCol}"
+export token=$(kubectl get secret | grep cluster-admin-dashboard-sa | awk '{print $1}') > /dev/null 2>&1
+kubectl get secret $token -o=jsonpath='{.data.token}' | base64 --decode; echo

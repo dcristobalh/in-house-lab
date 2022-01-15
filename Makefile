@@ -2,6 +2,7 @@ all: init
 	@bash -c "scripts/elastic/elastic.sh"
 	@bash -c "scripts/tekton/tekton.sh"
 	@bash -c "scripts/cert-manager/cert-manager.sh"
+	@bash -c "scripts/dashboard/dashboard.sh"
 	@bash -c "scripts/everything.sh"
 
 init-cert: init
@@ -31,3 +32,7 @@ tekton:
 
 cert-manager:
 	@bash -c "scripts/cert-manager/cert-manager.sh"
+
+dashboard:
+	@bash -c "scripts/dashboard/dashboard.sh"
+	@bash -c "scripts/dashboard/info.sh"
